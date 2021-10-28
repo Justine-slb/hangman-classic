@@ -15,12 +15,13 @@ type HangManData struct {
 	HangmanPositions [10]string // It can be the array where the positions parsed in "hangman.txt" are stored
 }
 
-func Error(l string) bool {
+func Error(l string) {
 	if rune(l[0]) < 97 || rune(l[0]) > 122 || len(l) > 1 {
 		fmt.Printf("only one lower letter is accepted, try again\n")
-		return false
+		fmt.Printf("Propose a new lower letter\n")
+		fmt.Scan(&l)
+		Error(l)
 	}
-	return true
 }
 
 func check(e error) {
@@ -38,14 +39,15 @@ func main() {
 
 	tbWord := strings.SplitN(string(data), "\n", -1) // la fonction strings.SplitN permet de séparer le contenu du tableau à chaque saut de ligne. On crée ici un tableau de slice, chaque slice contient un mot.
 	ToFind := tbWord[rand.Intn(len(tbWord))]         // la fonction rand.Intn permet de générer un nbr random, grâce à la fonction rand.Seed le nbre random change à chaque tour.
-	Attempt := len(ToFind) + 2
+	Attempt := 10
 	word := []rune(ToFind)
 	nbrL := len(ToFind)/2 + 1
 	var l string
 
 	for i := 0; i < len(ToFind); i++ {
 		if nbrL >= 0 {
-			word[rand.Intn(len(ToFind))] = '_'
+			j := rand.Intn(len(ToFind))
+			word[j] = '_'
 			nbrL--
 		}
 	}
@@ -56,11 +58,8 @@ func main() {
 		fmt.Printf("you have %v attemps\n", Attempt)
 		fmt.Printf("Propose a lower letter\n")
 		fmt.Scan(&l)
-		if Error(l) == false {
-			fmt.Printf("Propose a new lower letter\n")
-			fmt.Scan(&l)
-			Error(l)
-		}
+		Error(l)
+
 		for i := 0; i < len(ToFind); i++ {
 			if l[0] == ToFind[i] {
 				word[i] = rune(ToFind[i])
@@ -71,8 +70,6 @@ func main() {
 				}
 			}
 		}
-
-		Attempt--
 	}
 	fmt.Println("You lost, the word to find was %v \n", ToFind)
 }
