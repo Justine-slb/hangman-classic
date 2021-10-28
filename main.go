@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"math/rand"
 	"os"
+	"strings"
 	"time"
 )
 
@@ -14,24 +15,12 @@ type HangManData struct {
 	HangmanPositions [10]string // It can be the array where the positions parsed in "hangman.txt" are stored
 }
 
-func SplitWhiteSpaces(s string) []string {
-	var sliceFinal []string
-	var mot string
-
-	for _, value := range s {
-		if value != '\n' && value != 0 {
-			mot += string(value)
-		} else {
-			if mot != "" {
-				sliceFinal = append(sliceFinal, mot)
-				mot = ""
-			}
-		}
+func Error(l string) bool {
+	if rune(l[0]) < 97 || rune(l[0]) > 122 || len(l) > 1 {
+		fmt.Printf("only one lower letter is accepted, try again\n")
+		return false
 	}
-	if mot != "" {
-		sliceFinal = append(sliceFinal, mot)
-	}
-	return sliceFinal
+	return true
 }
 
 func check(e error) {
@@ -41,12 +30,49 @@ func check(e error) {
 }
 
 func main() {
-	rand.Seed(time.Now().UnixNano())
+	rand.Seed(time.Now().UnixNano()) // fonction qui permet de générer un nouveau nombre random à chaque tour.
+	f, e := os.Open("C:\\Users\\justi\\OneDrive\\Documents\\YNOV\\YTRACK\\hangman-classic\\words2.txt")
+	check(e)
+	defer f.Close()
 	data, _ := os.ReadFile("C:\\Users\\justi\\OneDrive\\Documents\\YNOV\\YTRACK\\hangman-classic\\words2.txt")
-	fmt.Println(string(data))
-	tbWord := SplitWhiteSpaces(string(data))
-	ToFind := tbWord[rand.Intn(len(tbWord))]
-	Attempt := 10
-	var word string
 
+	tbWord := strings.SplitN(string(data), "\n", -1) // la fonction strings.SplitN permet de séparer le contenu du tableau à chaque saut de ligne. On crée ici un tableau de slice, chaque slice contient un mot.
+	ToFind := tbWord[rand.Intn(len(tbWord))]         // la fonction rand.Intn permet de générer un nbr random, grâce à la fonction rand.Seed le nbre random change à chaque tour.
+	Attempt := len(ToFind) + 2
+	word := []rune(ToFind)
+	nbrL := len(ToFind)/2 + 1
+	var l string
+
+	for i := 0; i < len(ToFind); i++ {
+		if nbrL >= 0 {
+			word[rand.Intn(len(ToFind))] = '_'
+			nbrL--
+		}
+	}
+
+	fmt.Println(string(word))
+
+	for Attempt >= 0 {
+		fmt.Printf("you have %v attemps\n", Attempt)
+		fmt.Printf("Propose a lower letter\n")
+		fmt.Scan(&l)
+		if Error(l) == false {
+			fmt.Printf("Propose a new lower letter\n")
+			fmt.Scan(&l)
+			Error(l)
+		}
+		for i := 0; i < len(ToFind); i++ {
+			if l[0] == ToFind[i] {
+				word[i] = rune(ToFind[i])
+				fmt.Println(string(word))
+				if string(word) == ToFind {
+					fmt.Printf("You win\n")
+					return
+				}
+			}
+		}
+
+		Attempt--
+	}
+	fmt.Println("You lost, the word to find was %v \n", ToFind)
 }
