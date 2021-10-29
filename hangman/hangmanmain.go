@@ -44,6 +44,6 @@ func HangmanMain() {
 		failed = false
 	}
 	if Attempt == 0 {
-		fmt.Println("you loose")
+		fmt.Println("YOU LOOSE")
 	}
 }

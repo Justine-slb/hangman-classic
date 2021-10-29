@@ -37,25 +37,28 @@ func CacheLettre(toFind string, tbWord []rune, nLshow int) []rune {
 	return tbWord
 }
 func ProposeLetter(Attempt int, tbWord []rune, sugestL string, lTried []string) string {
-	fmt.Printf("you have %v attemps\n", Attempt)
+	fmt.Printf("You have %v attemps\n", Attempt)
 	fmt.Println(string(tbWord))
 	fmt.Printf("Propose a lower letter\n")
 	fmt.Scan(&sugestL)
-	Error(sugestL)
+	if Error(sugestL) == true {
+		ProposeLetter(Attempt, tbWord, sugestL, lTried)
+	}
 	for _, value := range lTried {
 		if rune(sugestL[0]) == rune(value[0]) {
+			fmt.Println("You already try this letter, try an other")
 			ProposeLetter(Attempt, tbWord, sugestL, lTried)
 		}
 	}
 	return sugestL
 }
 
-func Error(l string) {
+func Error(l string) bool {
 	if rune(l[0]) < 97 || rune(l[0]) > 122 || len(l) > 1 {
-		fmt.Printf("only one lower letter is accepted, try again\n")
-		fmt.Printf("Propose a new lower letter\n")
-		fmt.Scan(&l)
+		fmt.Printf("Only one lower letter is accepted, try again\n")
+		return true
 	}
+	return false
 }
 
 func HideLetters(nLToShow int, tbWord []rune) []int {
