@@ -2,104 +2,102 @@ package hangman
 
 import (
 	"fmt"
-	"math/rand"
-	"os"
-	"strings"
-	"time"
 )
 
-func ChooseWord() string {
-	rand.Seed(time.Now().UnixNano())
-	f, e := os.Open("C:\\Users\\justi\\OneDrive\\Documents\\YNOV\\YTRACK\\hangman-classic\\dictionnaire.txt")
-	check(e)
-	defer f.Close()
-	data, _ := os.ReadFile("C:\\Users\\justi\\OneDrive\\Documents\\YNOV\\YTRACK\\hangman-classic\\dictionnaire.txt")
-	tbWords := strings.SplitN(string(data), "\n", -1)
-	toFind := tbWords[rand.Intn(len(tbWords))]
-	return toFind
+func IntroHang() {
+	Restart()
 }
 
-func check(e error) {
-	if e != nil {
-		panic(e)
+func Restart() {
+	var a string
+	fmt.Println("Do you want to play a HANGMAN GAME? Press X to play, else 0 : ")
+	fmt.Scan(&a)
+	if a == "X" {
+		gameHangman()
+	} else {
+		fmt.Println("Oh okay... Hope to see you again, Bye...\n")
+		return
 	}
+
 }
 
-func CacheLettre(toFind string, tbWord []rune, nLshow int) []rune {
-	tb := HideLetters(nLshow, tbWord)
-	for i := 0; i < len(tb); i++ {
-		for j := 0; j < len(toFind); j++ {
-			if j == tb[i] {
-				tbWord[tb[i]] = rune(toFind[tb[i]])
+func gameHangman() {
+	toFind := ChooseWord()
+	tbHangman := ArrayHangman()
+	nbrLShow := len(toFind)/2 - 1
+
+	var lTried []string
+	tbWord := PrintWord(toFind, nbrLShow)
+	Attempt := 10
+	cptFailed := 0
+	fmt.Println(string(tbWord))
+
+	for Attempt > 0 {
+		failed := false
+		guestL := ProposeLetter(Attempt, tbWord, lTried)
+		lTried = append(lTried, guestL)
+		for i := 0; i < len(toFind); i++ {
+			if guestL == string(toFind[i]) {
+				tbWord[i] = rune(toFind[i])
+				failed = true
 			}
 		}
+		fmt.Println(string(tbWord))
+		if toFind == string(tbWord) {
+			fmt.Printf("Congrats! YOU WON !! \n")
+			Restart()
+		}
+
+		if failed == false {
+			Attempt--
+			cptFailed++
+			PrintHangman(tbHangman, cptFailed)
+		}
 	}
-	return tbWord
+	if Attempt == 0 {
+		fmt.Println("YOU LOOSE")
+	}
 }
-func ProposeLetter(Attempt int, tbWord []rune, sugestL string, lTried []string) string {
-	fmt.Printf("You have %v attemps\n", Attempt)
-	fmt.Println(string(tbWord))
-	fmt.Printf("Propose a lower letter\n")
+
+func ProposeLetter(Attempt int, tbWord []rune, lTried []string) string {
+	var sugestL string
+	fmt.Printf("You have %v attemps\nChoose : ", Attempt)
 	fmt.Scan(&sugestL)
-	if Error(sugestL) == true {
-		ProposeLetter(Attempt, tbWord, sugestL, lTried)
+	sugestL = ToLower(sugestL)
+
+	Err, l := Error(rune(sugestL[0]))
+
+	if Err == true {
+		ProposeLetter(Attempt, tbWord, lTried)
 	}
-	for _, value := range lTried {
-		if rune(sugestL[0]) == rune(value[0]) {
-			fmt.Println("You already try this letter, try an other")
-			ProposeLetter(Attempt, tbWord, sugestL, lTried)
+	for _, lettre := range lTried {
+		if l == rune(lettre[0]) {
+			fmt.Println("You already try this letter.\n")
+			return ProposeLetter(Attempt, tbWord, lTried)
 		}
 	}
 	return sugestL
 }
 
-func Error(l string) bool {
-	if rune(l[0]) < 97 || rune(l[0]) > 122 || len(l) > 1 {
-		fmt.Printf("Only one lower letter is accepted, try again\n")
-		return true
-	}
-	return false
-}
-
-func HideLetters(nLToShow int, tbWord []rune) []int {
-	rand.Seed(time.Now().UnixNano())
-	var tb []int
-	for n := 0; n < len(tbWord)-1; n++ {
-		tbWord[n] = '_'
-	}
-	for i := 0; i < nLToShow; i++ {
-		Rnbr := rand.Intn(len(tbWord) - 1)
-		for j := 0; j < len(tb); j++ {
-			for Rnbr == tb[j] {
-				return HideLetters(nLToShow, tbWord)
-			}
+func ToLower(s string) string {
+	var newString string
+	for _, lettre := range []rune(s) {
+		if lettre >= 'A' && lettre <= 'Z' {
+			lettre += 32
 		}
-		tb = append(tb, Rnbr)
+		newString += string(lettre)
 	}
-	return tb
+	return newString
 }
 
-func GoodLetter(i int, tbWord []rune, toFind string) bool {
-	fmt.Println("Well done!\n")
-	tbWord[i] = rune(toFind[i])
-	if string(tbWord) != toFind {
-		return false
-	} else {
-		fmt.Println(string(tbWord))
-		fmt.Printf("You won\n")
-		return true
+func Error(l rune) (bool, rune) {
+	if l >= 'a' && l <= 'z' {
+		return false, l
 	}
+	fmt.Printf("Only one letter is accepted, try again\n")
+	return true, l
 }
 
 func PrintHangman(tbHangman []string, a int) { // fonction qui permet de générer un nouveau nombre random à chaque tour.
 	fmt.Println(tbHangman[a])
-}
-
-func ArrayHangman() []string {
-	f, e := os.Open("C:\\Users\\justi\\OneDrive\\Documents\\YNOV\\YTRACK\\hangman-classic\\hangman.txt")
-	check(e)
-	defer f.Close()
-	data, _ := os.ReadFile("C:\\Users\\justi\\OneDrive\\Documents\\YNOV\\YTRACK\\hangman-classic\\hangman.txt")
-	tbHangman := strings.SplitN(string(data), "*", -1)
-	return tbHangman
 }
