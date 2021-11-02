@@ -56,6 +56,7 @@ func gameHangman() {
 	}
 	if Attempt == 0 {
 		fmt.Println("YOU LOOSE")
+		Restart()
 	}
 }
 
