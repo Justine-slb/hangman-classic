@@ -24,7 +24,7 @@ func IntroHang() {
 	fmt.Println("You gonna propose letter or word")
 	time.Sleep(2 * time.Second)
 	fmt.Println("You gonna loose 1 attempt for each letter failed and 2 for each word failed")
-	fmt.Println("To help you, we gonna reveal some caractere\nYou have 10 attempts to find it... ")
+	fmt.Println("To help you, we gonna reveal some characters\nYou have 10 attempts to find it... ")
 	time.Sleep(2 * time.Second)
 	fmt.Println("If you fail ...")
 	time.Sleep(2 * time.Second)
