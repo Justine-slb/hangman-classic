@@ -72,7 +72,6 @@ func gameHangman() {
 					}
 				}
 			}
-			fmt.Println(string(word))
 			if toFind == string(word) {
 				fmt.Printf("Congrats! YOU WON !! \n")
 				Restart()
