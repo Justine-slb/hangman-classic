@@ -112,7 +112,7 @@ func ProposeLetter(attempt int, toFind string, word []rune, lTried []string) str
 	if len(sugestL) == 1 {
 		err := IsAlpha(sugestL)
 		if err == false {
-			fmt.Println("You can only propose letter or word, special caracteres and numbers are not accepted\n")
+			fmt.Println("You can only propose letter or word, special characters and numbers are not accepted\n")
 			ProposeLetter(attempt, toFind, word, lTried)
 		}
 	} else if len(sugestL) == len(toFind)-1 {
