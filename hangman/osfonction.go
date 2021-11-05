@@ -26,9 +26,10 @@ func check(e error) {
 
 func ArrayHangman() []string {
 	f, e := os.Open("C:\\Users\\justi\\OneDrive\\Documents\\YNOV\\YTRACK\\hangman-classic\\hangman.txt")
-	check(e)
+	check(e) // check erreur : par de fichier
 	defer f.Close()
-	data, _ := os.ReadFile("C:\\Users\\justi\\OneDrive\\Documents\\YNOV\\YTRACK\\hangman-classic\\hangman.txt")
+	data, err := os.ReadFile("C:\\Users\\justi\\OneDrive\\Documents\\YNOV\\YTRACK\\hangman-classic\\hangman.txt")
+	check(err)
 	tbHangman := strings.SplitN(string(data), "*", -1)
 	return tbHangman
 }
@@ -38,31 +39,32 @@ func PrintWord(toFind string, nLshow int) []rune {
 	for n := 0; n < len(tbWord)-1; n++ {
 		tbWord[n] = '_'
 	}
-	tb := HideLetters(nLshow, tbWord)
-	for i := 0; i < len(tb); i++ {
-		for j := 0; j < len(toFind); j++ {
-			if j == tb[i] {
-				tbWord[tb[i]] = rune(toFind[tb[i]])
+	tbIndex := RandomIndex(nLshow, tbWord) // création d'un tableau d'index aléatoire gràce à la fonction HideLetters
+	for i := 0; i < len(tbIndex); i++ {    // on parcourt le tb index avec
+		for j := 0; j < len(toFind); j++ { // on parcourt le tb toFind
+			if j == tbIndex[i] { // quand la valeur comprise dans tbIndex[i] = index de toFind j'applique :
+				tbWord[tbIndex[i]] = rune(toFind[tbIndex[i]]) //
 			}
+
 		}
 	}
 	return tbWord
 }
 
-func HideLetters(nLToShow int, tbWord []rune) []int {
+func RandomIndex(nLToShow int, tbWord []rune) []int { // Cette fonction permet de créer un tableau d'index aléatoire, et tous différents
 	rand.Seed(time.Now().UnixNano())
-	var tb []int
-	for n := 0; n < len(tbWord)-1; n++ {
+	var tbIndex []int
+	for n := 0; n < len(tbWord)-1; n++ { // on commence par modifier tous les caractères du tbWord par des _.
 		tbWord[n] = '_'
 	}
 	for i := 0; i < nLToShow; i++ {
 		Rnbr := rand.Intn(len(tbWord) - 1)
-		for j := 0; j < len(tb); j++ {
-			for Rnbr == tb[j] {
-				return HideLetters(nLToShow, tbWord)
+		for j := 0; j < len(tbIndex); j++ {
+			for Rnbr == tbIndex[j] { // dans cette boucle, si l'index random est déjà dans le tableau, on rappelle la focntion RandomIndex : Récursive
+				return RandomIndex(nLToShow, tbWord)
 			}
 		}
-		tb = append(tb, Rnbr)
+		tbIndex = append(tbIndex, Rnbr) // si l'index random est valide : on l'ajoute au tbIndex.
 	}
-	return tb
+	return tbIndex
 }
