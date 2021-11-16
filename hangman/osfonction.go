@@ -31,7 +31,7 @@ func ArrayHangman() []string {
 	defer f.Close()
 	data, err := os.ReadFile("C:\\Users\\justi\\OneDrive\\Documents\\YNOV\\YTRACK\\hangman-classic\\hangman.txt")
 	check(err)
-	tbHangman := strings.SplitN(string(data), "*", -1)
+	tbHangman := strings.Split(string(data), "\n\n")
 	return tbHangman
 }
 

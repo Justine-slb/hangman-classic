@@ -16,7 +16,6 @@ type game struct {
 }
 
 func Save(word []rune, toFind string, attempt int, lTried []string) {
-
 	data := game{word, toFind, attempt, lTried}
 	dataBytes, err := json.Marshal(data) //permet de convertir la structure en format json marshal
 	file, err := os.Create("save.txt")   //cree un fichier save.txt
@@ -29,7 +28,6 @@ func Save(word []rune, toFind string, attempt int, lTried []string) {
 }
 
 func Load() {
-	//condition a placer dans le fichier main
 	if os.Args[1] == "--startWith" {
 		if len(os.Args) > 1 {
 			if os.Args[2] == "save.txt" {

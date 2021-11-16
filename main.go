@@ -9,5 +9,5 @@ func main() {
 	if len(os.Args) > 1 {
 		hangman.Load()
 	}
-	hangman.IntroHang()
+	hangman.Menu()
 }
