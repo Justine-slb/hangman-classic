@@ -5,7 +5,7 @@ import (
 	"time"
 )
 
-func Menu() {
+func Menu() { // function to print the menu
 	var choice string
 	CallClear()
 	fmt.Println("1 - Play")
@@ -24,7 +24,7 @@ func Menu() {
 	}
 }
 
-func Rules() {
+func Rules() { // function to print the Rules
 	tbHangman := ArrayHangman()
 	fmt.Println("Your mission, if you accept it, is to find the secret word.")
 	time.Sleep(1 * time.Second)
