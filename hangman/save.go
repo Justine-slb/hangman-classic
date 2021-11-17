@@ -13,10 +13,11 @@ type game struct {
 	ToFind  string
 	Attempt int
 	LTried  []string
+	asciiOk bool
 }
 
-func Save(word []rune, toFind string, attempt int, lTried []string) {
-	data := game{word, toFind, attempt, lTried}
+func Save(word []rune, toFind string, attempt int, lTried []string, asciiOk bool) {
+	data := game{word, toFind, attempt, lTried, asciiOk}
 	dataBytes, err := json.Marshal(data) //permet de convertir la structure en format json marshal
 	file, err := os.Create("save.txt")   //cree un fichier save.txt
 	if err != nil {
@@ -37,7 +38,7 @@ func Load() {
 				if err != nil {
 					log.Fatal(err)
 				}
-				GameHangman(data2.Word, data2.ToFind, data2.Attempt, data2.LTried)
+				GameHangman(data2.Word, data2.ToFind, data2.Attempt, data2.LTried, data2.asciiOk)
 			}
 		}
 	}
