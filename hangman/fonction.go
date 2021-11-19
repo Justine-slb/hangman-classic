@@ -29,7 +29,6 @@ func GameHangman(wordHole []rune, toFind string, attempt int, lTried []string, a
 		if inPut == "--STOP" {                                           //
 			Save(wordHole, toFind, attempt, lTried, asciiOk) // call the save function to save the data and stop the game
 			return
-
 		} else {
 			lTried = append(lTried, inPut) // if the input is ok, you put it in the array ltried
 			if len(inPut) == 1 {           // if it's a letter
