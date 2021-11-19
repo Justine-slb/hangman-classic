@@ -68,6 +68,7 @@ func Rules(asciiOk bool) { // function to print the Rules
 	fmt.Println("If you fail ...")
 	time.Sleep(1 * time.Second)
 	PrintHangman(tbHangman, 10)
+	time.Sleep(3 * time.Second)
 	fmt.Println()
 	fmt.Println("If you want to stop the game and save your run, you can in put '--stop' in the terminal")
 	Menu(asciiOk)
