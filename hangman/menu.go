@@ -35,10 +35,10 @@ func Menu(asciiOk bool) { // function to print the menu
 	CallClear()
 	word := "HANGMAN"
 	AsciiArt(word)
-	fmt.Println()
 	fmt.Println("1 - Play")
 	fmt.Println("2 - Rules")
-	fmt.Println("3 - Leave")
+	fmt.Println(("3 - Ascii Art mode"))
+	fmt.Println("4 - Leave")
 	fmt.Println("Press your choice : ")
 	fmt.Scan(&choice)
 	if choice == "1" {
@@ -46,6 +46,9 @@ func Menu(asciiOk bool) { // function to print the menu
 	} else if choice == "2" {
 		Rules(asciiOk)
 	} else if choice == "3" {
+		asciiOk = true
+		Params(asciiOk)
+	} else if choice == "4" {
 		fmt.Println("See you soon!")
 		return
 	} else {
@@ -75,5 +78,7 @@ func Rules(asciiOk bool) { // function to print the Rules
 	fmt.Println("If you fail ...")
 	time.Sleep(1 * time.Second)
 	PrintHangman(tbHangman, 10)
+	fmt.Println()
+	fmt.Println("If you want to stop the game and save your run, you can in put '--stop' in the terminal")
 	Menu(asciiOk)
 }

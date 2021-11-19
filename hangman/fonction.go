@@ -33,14 +33,14 @@ func GameHangman(wordHole []rune, toFind string, attempt int, lTried []string, a
 		} else {
 			lTried = append(lTried, inPut) // if the input is ok, you put it in the array ltried
 			if len(inPut) == 1 {           // if it's a letter
-				winLettre, find = InPutLettre(inPut, toFind, wordHole) // call the function InPutLettre and return 2 booleans one for the word and one for the letter
+				winLettre, find = InPutLettre(inPut, toFind, wordHole, asciiOk) // call the function InPutLettre and return 2 booleans one for the word and one for the letter
 				if winLettre == false {
 					attempt-- // loose 1 attempt
 				} else if find == true {
 					attempt = 0 // init attempt to end the game and recall the menu
 				}
 			} else { // if the inPut is a word
-				if InPutWord(inPut, toFind) == false { // return a boolean, if failed :
+				if InPutWord(inPut, toFind, asciiOk) == false { // return a boolean, if failed :
 					attempt -= 2 // loose two attempt
 				} else { // else if InPutWord == true
 					attempt = 0 // init attempt to 0 to end the run and recall the menu
@@ -80,13 +80,11 @@ func CheckInPutF(attempt int, toFind string, word []rune, lTried []string, ascii
 func InPutF(word []rune, attempt int, asciiOk bool) string { // function to ask and return the input
 	var inPut string
 	fmt.Println(" ")
-	fmt.Println(asciiOk)
 	if asciiOk == true {
 		AsciiArt(string(word))
 	} else {
 		fmt.Println(string(word))
 	}
-
 	fmt.Printf("You have %v attemps\nChoose : ", attempt)
 	fmt.Scan(&inPut)
 	inPut = strings.ToUpper(inPut) // transform the input to Upper Letter
@@ -103,7 +101,7 @@ func IsAlpha(s string) bool { // check if the input is only upper alpha characte
 	return true // else return true
 }
 
-func InPutLettre(inPut, toFind string, wordHole []rune) (bool, bool) { // if the lengths of the input is 1 so a single letter
+func InPutLettre(inPut, toFind string, wordHole []rune, asciiOk bool) (bool, bool) { // if the lengths of the input is 1 so a single letter
 	winLettre := false // bool winLettre
 	find := false      // bool word find
 	for i := 0; i < len(toFind); i++ {
@@ -111,21 +109,26 @@ func InPutLettre(inPut, toFind string, wordHole []rune) (bool, bool) { // if the
 			if wordHole[i] == '_' { // if the letter is hide yet
 				wordHole[i] = rune(toFind[i]) // the letter is show
 				fmt.Println("Well done!")
-				winLettre = true                      // the bool win letter take the true value
-				newWordHole := string(wordHole)       // we update the wordHole
-				find = InPutWord(newWordHole, toFind) // we call the function InPutWord, to check is the word is finding. The function return a bol and the result is keeping int the bool Find
+				winLettre = true                               // the bool win letter take the true value
+				newWordHole := string(wordHole)                // we update the wordHole
+				find = InPutWord(newWordHole, toFind, asciiOk) // we call the function InPutWord, to check is the word is finding. The function return a bol and the result is keeping int the bool Find
 			}
 		}
 	}
 	return winLettre, find // the function return the 2 update bool
 }
 
-func InPutWord(inPut, toFind string) bool { // the function call the function compare dans return a bool find
+func InPutWord(inPut, toFind string, asciiOk bool) bool { // the function call the function compare dans return a bool find
 	different := Compare(inPut, toFind)
 	var find bool
 	if different == false {
-		fmt.Println(toFind)
-		fmt.Println("YOU WIN")
+		if asciiOk == true { // Print word in ascii if it is ok
+			AsciiArt(toFind)
+			AsciiArt("YOU WIN")
+		} else {
+			fmt.Println(toFind)
+			fmt.Println("YOU WIN")
+		}
 		time.Sleep(2 * time.Second)
 		find = true // if there is no difference, inpPut = toFind , find == true
 	}
