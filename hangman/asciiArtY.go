@@ -7,6 +7,17 @@ import (
 	"strings"
 )
 
+func AsciiArtok() bool {
+	if os.Args[1] == "words.txt" {
+		if os.Args[2] == "--letterFile" {
+			if os.Args[3] == "standard.txt" {
+				return true
+			}
+		}
+	}
+	return false
+}
+
 func AsciiArt(word string) {
 	f, e := os.Open("standard.txt")
 	if e != nil {

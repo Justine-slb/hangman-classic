@@ -34,7 +34,7 @@ func Load() { // this function read the args in put in the terminal
 			if os.Args[2] == "save.txt" { // the name of the file to read
 				content, err := ioutil.ReadFile("save.txt")
 				data2 := game{}
-				err = json.Unmarshal(content, &data2) //reconvertir le json marshall en structure
+				err = json.Unmarshal(content, &data2) // convert Json Marshal in structure
 				if err != nil {                       // if err content data, there is an error, so that print an error message
 					log.Fatal(err)
 				}

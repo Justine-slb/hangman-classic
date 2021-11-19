@@ -8,17 +8,6 @@ import (
 	"time"
 )
 
-func AsciiArtok() bool {
-	if os.Args[1] == "words.txt" {
-		if os.Args[2] == "--letterFile" {
-			if os.Args[3] == "standard.txt" {
-				return true
-			}
-		}
-	}
-	return false
-}
-
 func IntroHang(asciiOk bool) {
 	reader := bufio.NewReader(os.Stdin)
 	fmt.Print("Hey you!\nWelcome to the HANGMAN GAME\nWhat is your name ?\n")
@@ -37,7 +26,7 @@ func Menu(asciiOk bool) { // function to print the menu
 	AsciiArt(word)
 	fmt.Println("1 - Play")
 	fmt.Println("2 - Rules")
-	fmt.Println(("3 - Ascii Art mode"))
+	fmt.Println("3 - Ascii Art mode")
 	fmt.Println("4 - Leave")
 	fmt.Println("Press your choice : ")
 	fmt.Scan(&choice)

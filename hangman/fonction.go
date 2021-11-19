@@ -79,7 +79,7 @@ func CheckInPutF(attempt int, toFind string, word []rune, lTried []string, ascii
 
 func InPutF(word []rune, attempt int, asciiOk bool) string { // function to ask and return the input
 	var inPut string
-	fmt.Println(" ")
+	fmt.Println()
 	if asciiOk == true {
 		AsciiArt(string(word))
 	} else {
