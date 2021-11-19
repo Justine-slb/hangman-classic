@@ -51,6 +51,7 @@ func GameHangman(wordHole []rune, toFind string, attempt int, lTried []string, a
 	if attempt == 0 && cptFailed >= 10 { // if cptFailed >=10
 		fmt.Println("YOU LOOSE") // you loose
 	}
+	asciiOk = false
 	Menu(asciiOk) // recall the menu
 }
 
