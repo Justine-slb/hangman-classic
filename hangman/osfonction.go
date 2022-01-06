@@ -9,10 +9,10 @@ import (
 
 func ChooseWord() string {
 	rand.Seed(time.Now().UnixNano())
-	f, e := os.Open("C:\\Users\\justi\\OneDrive\\Documents\\YNOV\\YTRACK\\hangman-classic\\dictionnaire.txt")
+	f, e := os.Open("C:\\Users\\justi\\OneDrive\\Documents\\YNOV\\YTRACK\\hangman-classic\\words.txt")
 	check(e)
 	defer f.Close()
-	data, _ := os.ReadFile("C:\\Users\\justi\\OneDrive\\Documents\\YNOV\\YTRACK\\hangman-classic\\dictionnaire.txt")
+	data, _ := os.ReadFile("C:\\Users\\justi\\OneDrive\\Documents\\YNOV\\YTRACK\\hangman-classic\\words.txt")
 	tbWords := strings.SplitN(string(data), "\n", -1)
 	toFind := tbWords[rand.Intn(len(tbWords))]
 	toFind = strings.ToUpper(toFind)
