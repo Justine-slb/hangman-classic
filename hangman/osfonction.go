@@ -31,11 +31,13 @@ func ArrayHangman() []string {
 	defer f.Close()
 	data, err := os.ReadFile("C:\\Users\\justi\\OneDrive\\Documents\\YNOV\\YTRACK\\hangman-classic\\hangman.txt")
 	check(err)
-	tbHangman := strings.Split(string(data), "\n\n")
+	tbHangman := []string{}
+	tbHangman = strings.Split(string(data), "*")
 	return tbHangman
 }
 
-func WordHoleF(toFind string, nLshow int) []rune {
+func WordHoleF(toFind string) []rune {
+	nLshow := len(toFind)/2 - 1
 	holeWord := []rune(toFind)
 	for n := 0; n < len(holeWord)-1; n++ {
 		holeWord[n] = '_'

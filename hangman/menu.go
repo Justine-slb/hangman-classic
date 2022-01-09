@@ -1,14 +1,11 @@
 package hangman
 
 import (
-	"bufio"
 	"fmt"
-	"os"
-	"strings"
 	"time"
 )
 
-func IntroHang() {
+/*func IntroHang() {
 	reader := bufio.NewReader(os.Stdin)
 	fmt.Print("Hey you!\nWelcome to the HANGMAN GAME\nWhat is your name ?\n")
 	name, _ := reader.ReadString('\n')
@@ -20,6 +17,8 @@ func IntroHang() {
 	Menu()
 }
 
+*/
+
 func Menu() { // function to print the menu
 	var choice string
 	CallClear()
@@ -27,16 +26,18 @@ func Menu() { // function to print the menu
 	AsciiArt(word)
 	fmt.Println("1 - Play")
 	fmt.Println("2 - Rules")
-	fmt.Println("3 - Ascii Art mode")
+	fmt.Println("3 - Game started")
 	fmt.Println("4 - Leave")
 	fmt.Println("Press your choice : ")
 	fmt.Scan(&choice)
 	if choice == "1" {
-		Params()
+		game := Params()
+		GameManager(game)
 	} else if choice == "2" {
 		Rules()
 	} else if choice == "3" {
-		Params()
+		game := Load()
+		GameManager(game)
 	} else if choice == "4" {
 		fmt.Println("See you soon!")
 		return
@@ -48,7 +49,6 @@ func Menu() { // function to print the menu
 }
 
 func Rules() { // function to print the Rules
-	tbHangman := ArrayHangman()
 	fmt.Println("Your mission, if you accept it, is to find the secret word.")
 	time.Sleep(1 * time.Second)
 	fmt.Println("Let us give you some instructions: ")
@@ -66,7 +66,7 @@ func Rules() { // function to print the Rules
 	time.Sleep(1 * time.Second)
 	fmt.Println("If you fail ...")
 	time.Sleep(1 * time.Second)
-	PrintHangman(tbHangman, 10)
+	PrintHangman(0)
 	time.Sleep(3 * time.Second)
 	fmt.Println()
 	fmt.Println("If you want to stop the game and save your run, you can in put '--stop' in the terminal")
