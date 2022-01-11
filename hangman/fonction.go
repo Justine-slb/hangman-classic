@@ -14,24 +14,20 @@ type Game struct {
 	Input    string
 }
 
-//TODO: Rename to Init
+func Level() int {
+	var level int
+	fmt.Println("Choose your level:")
+	fmt.Scan(&level)
+	return level
+}
 
-func Init() Game {
+func Init(level int) Game {
 	game := Game{}
-	game.WordRoot = ChooseWord()
+	game.WordRoot = ChooseWord(level)
 	game.WordHole = WordHoleF(game.WordRoot)
 	game.Attempt = 10
 	game.Tried = []string{}
-
 	return game
-	/* aussi possible:
-	return Game{
-		WordRoot: ChooseWord(),
-		WordHole: WordHoleF(game.WordRoot),
-		Attempt: 10,
-		Tried: []string{}
-	}
-	*/
 }
 
 // GameManager define params to play

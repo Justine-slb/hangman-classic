@@ -17,7 +17,7 @@ func Menu() { // function to print the menu
 	fmt.Println("Press your choice : ")
 	fmt.Scan(&choice)
 	if choice == "1" {
-		game := Init()
+		game := Init(Level())
 		GameManager(game)
 	} else if choice == "2" {
 		Rules()

@@ -7,12 +7,25 @@ import (
 	"time"
 )
 
-func ChooseWord() string {
+func ChooseWord(level int) string {
+	var data []byte
 	rand.Seed(time.Now().UnixNano())
-	f, e := os.Open("C:\\Users\\justi\\OneDrive\\Documents\\YNOV\\YTRACK\\hangman-classic\\words.txt")
-	check(e)
-	defer f.Close()
-	data, _ := os.ReadFile("C:\\Users\\justi\\OneDrive\\Documents\\YNOV\\YTRACK\\hangman-classic\\words.txt")
+	if level == 1 {
+		f, e := os.Open("C:\\Users\\justi\\OneDrive\\Documents\\YNOV\\YTRACK\\hangman-classic\\words.txt")
+		check(e)
+		defer f.Close()
+		data, _ = os.ReadFile("C:\\Users\\justi\\OneDrive\\Documents\\YNOV\\YTRACK\\hangman-classic\\words.txt")
+	} else if level == 2 {
+		f, e := os.Open("C:\\Users\\justi\\OneDrive\\Documents\\YNOV\\YTRACK\\hangman-classic\\words2.txt")
+		check(e)
+		defer f.Close()
+		data, _ = os.ReadFile("C:\\Users\\justi\\OneDrive\\Documents\\YNOV\\YTRACK\\hangman-classic\\words2.txt")
+	} else {
+		f, e := os.Open("C:\\Users\\justi\\OneDrive\\Documents\\YNOV\\YTRACK\\hangman-classic\\words3.txt")
+		check(e)
+		defer f.Close()
+		data, _ = os.ReadFile("C:\\Users\\justi\\OneDrive\\Documents\\YNOV\\YTRACK\\hangman-classic\\words3.txt")
+	}
 	tbWords := strings.SplitN(string(data), "\n", -1)
 	toFind := tbWords[rand.Intn(len(tbWords))]
 	toFind = strings.ToUpper(toFind)
