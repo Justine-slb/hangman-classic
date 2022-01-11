@@ -9,7 +9,7 @@ type Game struct {
 	WordRoot string
 	WordHole []rune
 	Attempt  int
-	lTried   []string
+	Tried    []string
 	InPut    string
 }
 

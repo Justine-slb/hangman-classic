@@ -5,20 +5,6 @@ import (
 	"time"
 )
 
-/*func IntroHang() {
-	reader := bufio.NewReader(os.Stdin)
-	fmt.Print("Hey you!\nWelcome to the HANGMAN GAME\nWhat is your name ?\n")
-	name, _ := reader.ReadString('\n')
-	name = strings.ToUpper(name)
-	fmt.Println("HELLO " + name)
-	fmt.Println("TIME TO PLAY HANGMAN!")
-	time.Sleep(2 * time.Second)
-	CallClear()
-	Menu()
-}
-
-*/
-
 func Menu() { // function to print the menu
 	var choice string
 	CallClear()
@@ -31,7 +17,7 @@ func Menu() { // function to print the menu
 	fmt.Println("Press your choice : ")
 	fmt.Scan(&choice)
 	if choice == "1" {
-		game := Params()
+		game := Init()
 		GameManager(game)
 	} else if choice == "2" {
 		Rules()
@@ -68,7 +54,6 @@ func Rules() { // function to print the Rules
 	time.Sleep(1 * time.Second)
 	PrintHangman(0)
 	time.Sleep(3 * time.Second)
-	fmt.Println()
-	fmt.Println("If you want to stop the game and save your run, you can in put '--stop' in the terminal")
+	fmt.Println("If you want to stop the game and save your run, you can input '--stop' in the terminal")
 	Menu()
 }

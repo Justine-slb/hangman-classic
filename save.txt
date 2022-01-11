@@ -1,1 +1,1 @@
-{"WordRoot":"MOUSSE\r","WordHole":[95,79,85,83,83,69,13],"Attempt":7,"LTried":["F","E","G","U","T","S"],"InPut":""}
+{"WordRoot":"BANC\r","WordHole":[95,65,78,67,13],"Attempt":7,"LTried":["A","E","R","G","N"],"Input":""}

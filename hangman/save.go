@@ -9,7 +9,7 @@ import (
 )
 
 func Save(game Game) {
-	data := Game{game.WordRoot, game.WordHole, game.Attempt, game.LTried, ""}
+	data := Game{game.WordRoot, game.WordHole, game.Attempt, game.Tried, ""}
 	dataBytes, err := json.Marshal(data) //json.Marshal() convert Struct into Byte data, This method takes object as a param and returned Bytes code
 	file, err := os.Create("save.txt")   //create a file save.txt
 	if err != nil {
