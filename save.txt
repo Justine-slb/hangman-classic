@@ -1,1 +1,1 @@
-{"WordRoot":"BANC\r","WordHole":[95,65,78,67,13],"Attempt":7,"LTried":["A","E","R","G","N"],"Input":""}
+{"WordRoot":"COCCYX\r","WordHole":[95,79,67,95,89,95,13],"Attempt":3,"Tried":["E","R","U","A","I","O","L"],"Input":"","Level":3}

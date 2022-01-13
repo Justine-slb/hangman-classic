@@ -17,13 +17,13 @@ func Menu() { // function to print the menu
 	fmt.Println("Press your choice : ")
 	fmt.Scan(&choice)
 	if choice == "1" {
-		game := Init(Level())
-		GameManager(game)
+		game, level := Init(Level())
+		GameManager(game, level)
 	} else if choice == "2" {
 		Rules()
 	} else if choice == "3" {
-		game := Load()
-		GameManager(game)
+		game, level := Load()
+		GameHangman(game, level)
 	} else if choice == "4" {
 		fmt.Println("See you soon!")
 		return

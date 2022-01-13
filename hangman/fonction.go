@@ -21,18 +21,18 @@ func Level() int {
 	return level
 }
 
-func Init(level int) Game {
+func Init(level int) (Game, int) {
 	game := Game{}
 	game.WordRoot = ChooseWord(level)
 	game.WordHole = WordHoleF(game.WordRoot)
 	game.Attempt = 10
 	game.Tried = []string{}
-	return game
+	return game, level
 }
 
 // GameManager define params to play
-func GameManager(game Game) {
-	win := GameHangman(game)
+func GameManager(game Game, level int) {
+	win := GameHangman(game, level)
 	if win {
 		fmt.Println("You Win!!")
 	} else {
@@ -68,21 +68,21 @@ func PrintGame(game Game) {
 	fmt.Printf("You have %d attempt\n", game.Attempt)
 }
 
-func GameHangman(game Game) bool {
+func GameHangman(game Game, level int) bool {
 	var found, validChar, tried bool
 	for game.Attempt > 0 {
 		PrintGame(game)
 		game.Input = Input()
 		if game.Input == "--SAVE" {
-			Save(game)
+			Save(game, level)
 			return found
 		}
 		if IsAlpha(game.Input) == false {
-			GameHangman(game)
+			GameHangman(game, level)
 		}
 		game.Tried, tried = Tested(game)
 		if tried == false {
-			GameHangman(game)
+			GameHangman(game, level)
 		}
 		if len(game.Input) == 1 { // if it's a single character
 			validChar, found = InputChar(game.Input, game.WordRoot, game.WordHole)
@@ -90,18 +90,10 @@ func GameHangman(game Game) bool {
 			found = InputWord(game.Input, game.WordRoot)
 		} else {
 			fmt.Println("Your input is not conform, retry please")
-			GameHangman(game)
+			GameHangman(game, level)
 		}
 		game.Attempt = Counter(game.Attempt, validChar)
 		if found == true {
-			/*
-			*	TODO: "return found" fini automatiquement la boucle.
-			*	Ce n'est pas necessaire de changer le nombre de tentatives restantes.
-			*	vu que found est vrai, tu peux faire l'un ou l'autre, le retourner ou mettre le nombre de tentatives
-			*	restantes à 0.
-			*	Alternativement, tu pourrais retourner le nombre coup restant pour pouvoir l'ecrire dans ton ecran de fin.
-			 */
-			game.Attempt = 0
 			return found
 		}
 	}
@@ -112,9 +104,8 @@ func GameHangman(game Game) bool {
 func Input() string {
 	var input string
 	fmt.Scan(&input)
-	input = strings.ToUpper(input) // transform the input to Upper Letter
-	return input                   // return upper input
-	//TODO: `return strings.ToUpper(input)` possible (gain d'une ligne)
+	input = strings.ToUpper(input)
+	return input
 }
 
 func IsAlpha(s string) bool { // check if the input is only upper alpha character
@@ -128,17 +119,8 @@ func IsAlpha(s string) bool { // check if the input is only upper alpha characte
 }
 
 func InputChar(input, toFind string, wordHole []rune) (bool, bool) { // if the lengths of the input is 1 so a single letter
-	/*
-	* TODO: pour found et validChar, c'est le genre de commentaire inutile, il n'apprend rien sur le fonctionnement du code
-	* Le but est d'expliquer leur utilité (ou enlever le commentaire).
-	 */
-	validChar := false // bool validChar
-	found := false     // bool word found
-
-	/*
-	* TODO: `range` est utile dans ces cas. ex:`for i, char := range toFind {...}`
-	* (https://golangbyexample.com/understand-for-range-loop-golang/)
-	 */
+	validChar := false
+	found := false
 	for i := 0; i < len(toFind); i++ {
 		if input == string(toFind[i]) { // if the input is in the word to found
 			if wordHole[i] == '_' { // if the letter is hide yet
@@ -155,11 +137,9 @@ func InputChar(input, toFind string, wordHole []rune) (bool, bool) { // if the l
 //Necessaire? fait le meme boulot que Compare()
 // InputWord check if the current word equals the secret
 func InputWord(input, toFind string) bool {
-	//TODO: use 'strings.compare' ?
 	different := Compare(input, toFind)
 	var found bool
-	//TODO: if !different {}
-	if different == false {
+	if !different {
 		fmt.Println(toFind)
 		found = true // if there is no difference, input = toFind , find == true
 	}
