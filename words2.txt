@@ -21,7 +21,7 @@ theatre
 moustique
 ecrivain
 journaliste
-eductation
+education
 populaire
 bouteille
 politique

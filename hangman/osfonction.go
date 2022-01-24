@@ -26,7 +26,7 @@ func ChooseWord(level int) string {
 		defer f.Close()
 		data, _ = os.ReadFile("C:\\Users\\justi\\OneDrive\\Documents\\YNOV\\YTRACK\\hangman-classic\\words3.txt")
 	}
-	tbWords := strings.SplitN(string(data), "\n", -1)
+	tbWords := strings.Split(string(data), "\n")
 	toFind := tbWords[rand.Intn(len(tbWords))]
 	toFind = strings.ToUpper(toFind)
 	return toFind

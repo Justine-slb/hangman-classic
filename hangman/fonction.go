@@ -42,11 +42,11 @@ func GameManager(game Game, level int) {
 }
 
 // Counter update game counter
-func Counter(attempt int, win bool) int {
+func Counter(attempt int, win bool, loose int) int {
 	if win {
 		return attempt
 	}
-	return attempt - 1
+	return attempt - loose
 }
 
 // Tested Check for previously tested chars
@@ -86,13 +86,15 @@ func GameHangman(game Game, level int) bool {
 		}
 		if len(game.Input) == 1 { // if it's a single character
 			validChar, found = InputChar(game.Input, game.WordRoot, game.WordHole)
+			game.Attempt = Counter(game.Attempt, validChar, 1)
 		} else if len(game.Input) == len(game.WordRoot)-1 {
 			found = InputWord(game.Input, game.WordRoot)
+			game.Attempt = Counter(game.Attempt, found, 2)
 		} else {
 			fmt.Println("Your input is not conform, retry please")
 			GameHangman(game, level)
 		}
-		game.Attempt = Counter(game.Attempt, validChar)
+		//game.Attempt = Counter(game.Attempt, validChar)
 		if found == true {
 			return found
 		}
